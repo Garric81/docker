@@ -1,0 +1,5 @@
+docker ps  --  запущенные
+docker ps -a  #запущенные  и остановленые
+docker images  ---- образа список
+docker  rm images_name --- удалене образов
+docjer --version
