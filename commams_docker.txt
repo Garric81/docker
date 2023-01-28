@@ -2,4 +2,43 @@ docker ps  --  запущенные
 docker ps -a  #запущенные  и остановленые
 docker images  ---- образа список
 docker  rm images_name --- удалене образов
-docjer --version
+docker rm id_conteiner ---удаление контейнера
+docker container prune --- удаление  все контейнеров всех
+docker --version
+###########################################
+docker run hello-world
+docker run images_name 
+docker pull images_name
+############################################
+
+docker run -it images_name
+docker stop id_conteiner (name_comteiner)
+docker  run -d(# запуск фоново)  nginx
+docker container inspect id_conteiner | grep (exapmple IPAddress)
+####################################################################
+
+запуск  дополнительного процесса внутри контейнера
+docker exec -it id_conteiner(run) bash --Название  нового процесса
+hostname -i
+ls
+/usr/share/nginx/html# exit
+docker ps
+docker run -d  --name my_ngnix(новое имя) nginx
+
+######################################################################
+
+docker run - p 8080:80 nginx
+-p # публикация порта
+8080 - #внешний  порта
+80 # внутриний порт контейнера
+nginx --- # название образа  к кому пробрасваем
+
+####################################################################
+
+docker run -v ${PWD}:/usr/share/nginx/html nginx
+
+run ---  запуск контейнера
+v --  подключение томов
+
+{$PWD} --- Путь к  локальной папке
+/usr/share/nginx/html ---  путь  в контейнере
