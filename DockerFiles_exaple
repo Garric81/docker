@@ -9,3 +9,7 @@ docker -f
 
 Docker build . -t  my_nginx:1.1.1 # Название  образа и тег
 Docker run my_nginx 
+
+##################################################################
+ docker  run -it my-calendar
+
