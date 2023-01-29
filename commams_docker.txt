@@ -5,16 +5,20 @@ docker  rm images_name --- удалене образов
 docker rm id_conteiner ---удаление контейнера
 docker container prune --- удаление  все контейнеров всех
 docker --version
+
 ###########################################
+
 docker run hello-world
 docker run images_name 
 docker pull images_name
+
 ############################################
 
 docker run -it images_name
 docker stop id_conteiner (name_comteiner)
 docker  run -d(# запуск фоново)  nginx
 docker container inspect id_conteiner | grep (exapmple IPAddress)
+
 ####################################################################
 
 запуск  дополнительного процесса внутри контейнера
@@ -97,9 +101,7 @@ $ docker inspect slurm-storage
         "Scope": "local"
     }
 ]
-
 Попробуем использовать созданный том, запустим с ним контейнер:
-
 
 $ docker run --rm -v slurm-storage:/data -it ubuntu:20.10 /bin/bash
 # echo $RANDOM > /data/file
@@ -108,7 +110,6 @@ $ docker run --rm -v slurm-storage:/data -it ubuntu:20.10 /bin/bash
 # exit
 
 После самоуничтожения контейнера запустим другой и подключим к нему тот же том. Проверяем, что в нашем файле:
-
 
 $ docker run --rm -v slurm-storage:/data -it centos:8 /bin/bash -c "cat /data/file"
 13279
@@ -131,9 +132,7 @@ $ docker run --volumes-from slurm --name backup --rm -it centos:8 /bin/bash
 
 Вы можете заметить некий лаг в обновлении данных между контейнерами, это зависит от используемого Docker драйвера файловой системы.
 
-
 Создавать том заранее необязательно, всё сработает в момент запуска docker run:
-
 
 $ docker run -v newslurm:/newdata -v /srv:/host/srv -v slurm-storage:/data --name slurm --rm -it ubuntu:20.10 /bin/bash
 Посмотрим теперь на список томов:
@@ -145,14 +144,11 @@ local   newslurm
 
 Ещё немного усложним команду запуска, создадим анонимный том:
 
-
 $ docker run -v /anonymous -v newslurm:/newdata -v /srv:/host/srv -v slurm-storage:/data --name slurm --rm -it ubuntu:20.10 /bin/bash
 
 Такой том самоуничтожится после выхода из контейнера, так как мы указали ключ –rm.
 
-
 Если этого не сделать, давайте проверим что будет:
-
 
 $ docker run -v /anonymous -v newslurm:/newdata -v /srv:/host/srv -v slurm-storage:/data --name slurm -it ubuntu:20.10 /bin/bash
 $ docker volume ls
@@ -163,18 +159,31 @@ local   slurm-storage
 
 Хозяйке на заметку: тома (как образы и контейнеры) ограничены значением настройки dm.basesize, которая устанавливается на уровне настроек демона Docker. Как правило, что-то около 10Gb. Это значение можно изменить вручную, но потребуется перезапуск демона Docker.
 
-
 При запуске демона с ключом это выглядит так:
-
 
 $ sudo dockerd --storage-opt dm.basesize=40G
 
 Однажды увеличив значение, его уже нельзя просто так уменьшить. При запуске Docker выдаст ошибку.
 
-
 Если вам нужно вручную очистить содержимое всех томов, придётся удалять каталог, предварительно остановив демон:
-
 
 $ sudo service docker stop
 $ sudo rm -rf /var/lib/docker
 
+###############################################################
+
+docker run -v ${PWD}:/usr/share/nginx/html -p 8081:80 -d --rm nginx
+ -- rm удаление контейнера  после установки
+
+################################################################
+Перенос строки
+
+docker run \
+   -- name my_ngnix \
+   - v ${PWD}:/usr/share/nginx/html \
+   - p 8080:80 \
+   - d
+   -- rm \
+   nginx
+
+###############################################################################################
