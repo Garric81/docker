@@ -2,7 +2,7 @@ from python:alpine
 
     WORKDIR /app
 
-RUN
+RUN pip install pymongo
 
 COPY . .
 
