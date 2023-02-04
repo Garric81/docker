@@ -188,4 +188,5 @@ docker run \
 
 ###############################################################################################
 docker-compose down   # del containers all
-
+docker-compose up -d  --build  # пересоздать образ после  изменения
+docker  logs name_comteiner
